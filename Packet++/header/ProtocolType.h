@@ -209,6 +209,8 @@ namespace pcpp
 		 * Customize protocol - Agg protocol
 		 */
 		AGG = 0x87,
+
+		P4CALC = 0x1234
 	};
 
 

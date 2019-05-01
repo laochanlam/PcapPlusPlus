@@ -66,3 +66,5 @@ Tests/Pcap++Test/cUrl/curl_output.txt
 #Tutorial outputs
 Examples/Tutorials/**/Makefile
 Examples/Tutorials/**/*.exe
+
+.idea

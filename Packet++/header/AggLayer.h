@@ -8,18 +8,17 @@ namespace pcpp
 // I guess use this for no alignment
 #pragma pack(push, 1)
     struct agghdr {
-        uint8_t opcode;
-        uint32_t operand_a;
-        uint32_t operand_b;
-        uint32_t result;
+        uint8_t worker;
+        // static field, 10
+        uint32_t vector[10];
     };
 #pragma pack(pop)
 
-    enum AggOpcode
-    {
-        ADD = 0x01,
-        SUB = 0x02
-    };
+//    enum AggOpcode
+//    {
+//        ADD = 0x01,
+//        SUB = 0x02
+//    };
 
     class AggLayer : public Layer
     {
@@ -29,9 +28,9 @@ namespace pcpp
          */
         AggLayer(uint8_t* data, size_t dataLen, Layer* prevLayer, Packet* packet) : Layer(data, dataLen, prevLayer, packet) { m_Protocol = AGG; m_DataLen = sizeof(agghdr); }
         /**
-		 * A constructor that allocates a new ARP header
+		 * A constructor that allocates a new AGG header
          */
-        AggLayer(AggOpcode opCode, const uint32_t& operand_a, const uint32_t& operand_b);
+        AggLayer(uint8_t worker, uint32_t* array);
         ~AggLayer() {}
 
         /**
