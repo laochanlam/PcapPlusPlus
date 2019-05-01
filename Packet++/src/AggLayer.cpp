@@ -20,12 +20,21 @@ namespace pcpp
         m_Protocol = AGG;
 
         agghdr* aggHeader = getAggHeader();
-        aggHeader->worker = htons(worker);
+        // std::cout <<  "worker: " << +worker << std::endl;
+        aggHeader->worker = htons(worker) >> 8;
+        // printf("A: 0x%X \n", worker);
+        // printf("B: 0x%X \n", htons(worker));
+        // printf("C: 0x%X \n", aggHeader->worker);
+        // printf("A: %08X \n", worker);
+        // printf("B: %08X \n", htons(worker));
+        // printf("C: %08X \n", aggHeader->worker);
+
+        // std::cout <<  "aggHeader->worker: " << +htons(worker) << std::endl;
         memcpy(aggHeader->vector, array, sizeof(uint32_t) * 10);
 
-//        for (int i = 0; i < 10; i++) {
-//            std::cout << aggHeader->vector[i] << std::endl;
-//        }
+        //        for (int i = 0; i < 10; i++) {
+        //            std::cout << aggHeader->vector[i] << std::endl;
+        //        }
     }
 
     void AggLayer::computeCalculateFields()
