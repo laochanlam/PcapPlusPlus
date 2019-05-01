@@ -2,7 +2,7 @@
 #define PACKETPP_AGG_LAYER
 
 #include "Layer.h"
-
+#include <iostream>
 namespace pcpp 
 {
 // I guess use this for no alignment
@@ -34,7 +34,30 @@ namespace pcpp
         AggLayer(AggOpcode opCode, const uint32_t& operand_a, const uint32_t& operand_b);
         ~AggLayer() {}
 
+        /**
+		 * Get a pointer to the AGG header. Notice this points directly to the data, so every change will change the actual packet data
+         */
         inline agghdr* getAggHeader() const { return (agghdr*)m_Data; }
+
+        /**
+		 * Does nothing for this layer (AggLayer is always last)
+		 */
+        void parseNextLayer() {}
+
+
+		/**
+		 * @return The size of @ref arphdr
+		 */
+		inline size_t getHeaderLen() { return sizeof(agghdr); }
+
+        /**
+		 * Calculate the following fields
+		 */
+		void computeCalculateFields();
+
+        std::string toString();
+
+        OsiModelLayer getOsiModelLayer() { return OsiModelApplicationLayer; }
     };
 }
 #endif 

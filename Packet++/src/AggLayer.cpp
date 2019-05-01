@@ -23,4 +23,14 @@ namespace pcpp
         aggHeader->operand_a = operand_a;
         aggHeader->operand_b = operand_b;
     }
+
+    void AggLayer::computeCalculateFields()
+    {
+        
+    }
+
+    std::string AggLayer::toString()
+    {
+        return "Agg To String";
+    }
 }
