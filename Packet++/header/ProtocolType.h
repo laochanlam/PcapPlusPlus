@@ -203,7 +203,12 @@ namespace pcpp
 		/**
 		 * RADIUS protocol
 		 */
-		Radius = 0x40000000
+		Radius = 0x40000000,
+
+		/**
+		 * Customize protocol - Agg protocol
+		 */
+		AGG = 0x87,
 	};
 
 
