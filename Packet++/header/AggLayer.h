@@ -1,6 +1,7 @@
 #ifndef PACKETPP_AGG_LAYER
 #define PACKETPP_AGG_LAYER
 
+#define MAX_ENTRIES_PER_PACKET 32
 #include "Layer.h"
 #include <iostream>
 namespace pcpp 
@@ -8,9 +9,9 @@ namespace pcpp
 // I guess use this for no alignment
 #pragma pack(push, 1)
     struct agghdr {
-        uint8_t worker;
-        // static field, 10
-        uint32_t vector[10];
+        uint8_t workerID;
+        uint8_t entry_count;
+        uint32_t vector[MAX_ENTRIES_PER_PACKET+1];
     };
 #pragma pack(pop)
 

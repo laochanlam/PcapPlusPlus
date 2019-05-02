@@ -12,7 +12,7 @@
 
 namespace pcpp
 {
-    AggLayer::AggLayer(uint8_t worker, uint32_t* array)
+    AggLayer::AggLayer(uint8_t workerID, uint32_t* data)
     {
         m_DataLen = sizeof(agghdr);
         m_Data = new uint8_t[m_DataLen];
@@ -21,16 +21,17 @@ namespace pcpp
 
         agghdr* aggHeader = getAggHeader();
         // std::cout <<  "worker: " << +worker << std::endl;
-        aggHeader->worker = htons(worker) >> 8;
-        // printf("A: 0x%X \n", worker);
-        // printf("B: 0x%X \n", htons(worker));
-        // printf("C: 0x%X \n", aggHeader->worker);
-        // printf("A: %08X \n", worker);
-        // printf("B: %08X \n", htons(worker));
-        // printf("C: %08X \n", aggHeader->worker);
+        aggHeader->workerID = htons(workerID) >> 8;
+        aggHeader->entry_count = htons(MAX_ENTRIES_PER_PACKET) >> 8;
+//         printf("A: 0x%X \n", workerID);
+//         printf("B: 0x%X \n", htons(workerID));
+//         printf("C: 0x%X \n", aggHeader->workerID);
+//         printf("A: %08X \n", workerID);
+//         printf("B: %08X \n", htons(workerID));
+//         printf("C: %08X \n", aggHeader->workerID);
 
         // std::cout <<  "aggHeader->worker: " << +htons(worker) << std::endl;
-        memcpy(aggHeader->vector, array, sizeof(uint32_t) * 10);
+        memcpy(aggHeader->vector, data, sizeof(uint32_t) * (MAX_ENTRIES_PER_PACKET+1));
 
         //        for (int i = 0; i < 10; i++) {
         //            std::cout << aggHeader->vector[i] << std::endl;
