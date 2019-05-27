@@ -9,10 +9,9 @@ namespace pcpp
 // I guess use this for no alignment
 #pragma pack(push, 1)
     struct agghdr {
-//        uint32_t workerID;
-//        uint8_t entry_count;
         uint32_t bitmap;
-//        uint_t ACK;
+            uint8_t reserved: 7,
+                ACK: 1;
         uint32_t vector[MAX_ENTRIES_PER_PACKET+1];
     };
 #pragma pack(pop)
@@ -46,7 +45,7 @@ namespace pcpp
 		 */
         void parseNextLayer() {}
 
-
+        void setACK(void) { getAggHeader()->ACK = 1; }
 		/**
 		 * @return The size of @ref arphdr
 		 */

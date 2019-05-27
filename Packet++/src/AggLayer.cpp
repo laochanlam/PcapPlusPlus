@@ -20,8 +20,10 @@ namespace pcpp
         m_Protocol = AGG;
 
         agghdr* aggHeader = getAggHeader();
-        aggHeader->bitmap = htonl(1 << workerID);
 
+        aggHeader->bitmap = htonl(1 << workerID);
+        aggHeader->ACK = 0;
+        aggHeader->reserved = 0;
 //        printf("value of a = 0x%08x\n",  aggHeader->bitmap);
 //         printf("A: 0x%X \n", workerID);
 //         printf("B: 0x%X \n", htons(workerID));
