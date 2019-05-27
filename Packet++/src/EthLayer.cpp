@@ -8,7 +8,9 @@
 #include "VlanLayer.h"
 #include "PPPoELayer.h"
 #include "MplsLayer.h"
+#include "AggLayer.h"
 #include <string.h>
+
 #if defined(WIN32) || defined(WINx64) || defined(PCAPPP_MINGW_ENV)
 #include <winsock2.h>
 #elif LINUX
@@ -61,6 +63,9 @@ void EthLayer::parseNextLayer()
 	case PCPP_ETHERTYPE_MPLS:
 		m_NextLayer = new MplsLayer(m_Data + sizeof(ether_header), m_DataLen - sizeof(ether_header), this, m_Packet);
 		break;
+    case PCPP_ETHERTYPE_P4ML:
+        m_NextLayer = new AggLayer(m_Data + sizeof(ether_header), m_DataLen - sizeof(ether_header), this, m_Packet);
+        break;
 	default:
 		m_NextLayer = new PayloadLayer(m_Data + sizeof(ether_header), m_DataLen - sizeof(ether_header), this, m_Packet);
 	}
