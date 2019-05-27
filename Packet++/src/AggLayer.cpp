@@ -12,7 +12,7 @@
 
 namespace pcpp
 {
-    AggLayer::AggLayer(uint8_t workerID, uint32_t* data)
+    AggLayer::AggLayer(uint32_t workerID, uint32_t* data)
     {
         m_DataLen = sizeof(agghdr);
         m_Data = new uint8_t[m_DataLen];
@@ -21,8 +21,13 @@ namespace pcpp
 
         agghdr* aggHeader = getAggHeader();
         // std::cout <<  "worker: " << +worker << std::endl;
-        aggHeader->workerID = htons(workerID) >> 8;
-        aggHeader->entry_count = htons(MAX_ENTRIES_PER_PACKET) >> 8;
+//        aggHeader->workerID = htons(workerID) >> 8;
+//        aggHeader->entry_count = htons(MAX_ENTRIES_PER_PACKET) >> 8;
+
+        aggHeader->bitmap = htonl(1 << workerID);
+
+//        printf("%d\n", aggHeader->bitmap);
+//        printf("value of a = 0x%08x\n",  aggHeader->bitmap);
 //         printf("A: 0x%X \n", workerID);
 //         printf("B: 0x%X \n", htons(workerID));
 //         printf("C: 0x%X \n", aggHeader->workerID);

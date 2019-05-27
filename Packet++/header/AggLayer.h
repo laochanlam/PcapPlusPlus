@@ -9,8 +9,10 @@ namespace pcpp
 // I guess use this for no alignment
 #pragma pack(push, 1)
     struct agghdr {
-        uint8_t workerID;
-        uint8_t entry_count;
+//        uint32_t workerID;
+//        uint8_t entry_count;
+        uint32_t bitmap;
+//        uint_t ACK;
         uint32_t vector[MAX_ENTRIES_PER_PACKET+1];
     };
 #pragma pack(pop)
@@ -31,7 +33,7 @@ namespace pcpp
         /**
 		 * A constructor that allocates a new AGG header
          */
-        AggLayer(uint8_t worker, uint32_t* array);
+        AggLayer(uint32_t worker, uint32_t* array);
         ~AggLayer() {}
 
         /**
