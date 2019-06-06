@@ -11,7 +11,7 @@
 
 namespace pcpp
 {
-    AggLayer::AggLayer(uint32_t workerID, uint32_t* data)
+    AggLayer::AggLayer(uint32_t workerID, uint8_t agtr, uint8_t round,uint32_t* data)
     {
         m_DataLen = sizeof(agghdr);
         //fake data
@@ -24,6 +24,8 @@ namespace pcpp
         aggHeader->bitmap = htonl(1 << workerID);
         aggHeader->ACK = 0;
         aggHeader->reserved = 0;
+        aggHeader->agtr = agtr;
+        aggHeader->round = round;
 //        printf("value of a = 0x%08x\n",  aggHeader->bitmap);
 //         printf("A: 0x%X \n", workerID);
 //         printf("B: 0x%X \n", htons(workerID));
@@ -32,7 +34,7 @@ namespace pcpp
 //         printf("B: %08X \n", htons(workerID));
 //         printf("C: %08X \n", aggHeader->workerID);
 
-        memcpy(aggHeader->vector, data, sizeof(uint32_t) * (MAX_ENTRIES_PER_PACKET+1));
+        memcpy(aggHeader->vector, data, sizeof(uint32_t) * (MAX_ENTRIES_PER_PACKET));
     }
 
     void AggLayer::computeCalculateFields()

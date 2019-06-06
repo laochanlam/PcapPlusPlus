@@ -10,9 +10,11 @@ namespace pcpp
 #pragma pack(push, 1)
     struct agghdr {
         uint32_t bitmap;
-            uint8_t reserved: 7,
+        uint8_t reserved: 7,
                 ACK: 1;
-        uint32_t vector[MAX_ENTRIES_PER_PACKET+1];
+        uint8_t agtr;
+        uint8_t round;
+        uint32_t vector[MAX_ENTRIES_PER_PACKET];
     };
 #pragma pack(pop)
 
@@ -32,7 +34,7 @@ namespace pcpp
         /**
 		 * A constructor that allocates a new AGG header
          */
-        AggLayer(uint32_t worker, uint32_t* array);
+        AggLayer(uint32_t workerID, uint8_t agtr, uint8_t round,uint32_t* data);
         ~AggLayer() {}
 
         /**
