@@ -22,7 +22,6 @@ namespace pcpp
         agghdr* aggHeader = getAggHeader();
 
         aggHeader->bitmap = htonl(1 << workerID);
-        aggHeader->ACK = 0;
         aggHeader->reserved = 0;
         aggHeader->agtr = agtr;
         aggHeader->round = round;

@@ -10,8 +10,7 @@ namespace pcpp
 #pragma pack(push, 1)
     struct agghdr {
         uint32_t bitmap;
-        uint8_t reserved: 7,
-                ACK: 1;
+        uint8_t reserved;
         uint8_t agtr;
         uint8_t round;
         uint32_t vector[MAX_ENTRIES_PER_PACKET];
@@ -47,7 +46,7 @@ namespace pcpp
 		 */
         void parseNextLayer() {}
 
-        void setACK(void) { getAggHeader()->ACK = 1; }
+        void setACK(void) { getAggHeader()->reserved = 1; }
 		/**
 		 * @return The size of @ref arphdr
 		 */
