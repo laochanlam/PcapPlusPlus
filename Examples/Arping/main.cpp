@@ -48,7 +48,7 @@ static struct option ArpingOptions[] =
 void printUsage() {
 	printf("\nUsage:\n"
 			"------\n"
-			"%s [-hvl] [-c count] [-w timeout] [-i interface] [-s mac_sddr] [-S ip_addr] -T ip_addr\n"
+			"%s [-hvl] [-c count] [-w timeout] [-s mac_sddr] [-S ip_addr] -i interface -T ip_addr\n"
 			"\nOptions:\n\n"
 			"    -h           : Displays this help message and exits\n"
 			"    -v           : Displays the current version and exists\n"
@@ -124,10 +124,10 @@ int main(int argc, char* argv[])
 				sourceMac = MacAddress(optarg);
 				break;
 			case 'S':
-				sourceIP = IPv4Address(optarg);
+				sourceIP = IPv4Address(static_cast<char const *>(optarg));
 				break;
 			case 'T':
-				targetIP = IPv4Address(optarg);
+				targetIP = IPv4Address(static_cast<char const *>(optarg));
 				targetIpProvided = true;
 				break;
 			case 'c':

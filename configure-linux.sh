@@ -16,29 +16,32 @@ function HELP {
    echo "  1) Without any switches. In this case the script will guide you through using wizards"
    echo "  2) With switches, as described below"
    echo ""
-   echo -e "Basic usage: $SCRIPT [-h] [--pf-ring] [--pf-ring-home] [--dpdk] [--dpdk-home] [--use-immediate-mode] [--install-dir] [--libpcap-include-dir] [--libpcap-lib-dir]"\\n
+   echo -e "Basic usage: $SCRIPT [-h] [--pf-ring] [--pf-ring-home] [--dpdk] [--dpdk-home] [--use-immediate-mode] [--set-direction-enabled] [--install-dir] [--libpcap-include-dir] [--libpcap-lib-dir]"\\n
    echo "The following switches are recognized:"
-   echo "--default             --Setup PcapPlusPlus for Linux without PF_RING or DPDK. In this case you must not set --pf-ring or --dpdk"
+   echo "--default                --Setup PcapPlusPlus for Linux without PF_RING or DPDK. In this case you must not set --pf-ring or --dpdk"
    echo ""
-   echo "--pf-ring             --Setup PcapPlusPlus with PF_RING. In this case you must also set --pf-ring-home"
-   echo "--pf-ring-home        --Sets PF_RING home directory. Use only when --pf-ring is set"
+   echo "--pf-ring                --Setup PcapPlusPlus with PF_RING. In this case you must also set --pf-ring-home"
+   echo "--pf-ring-home           --Sets PF_RING home directory. Use only when --pf-ring is set"
    echo ""
-   echo "--dpdk                --Setup PcapPlusPlus with DPDK. In this case you must also set --dpdk-home"
-   echo "--dpdk-home           --Sets DPDK home directoy. Use only when --dpdk is set"
+   echo "--dpdk                   --Setup PcapPlusPlus with DPDK. In this case you must also set --dpdk-home"
+   echo "--dpdk-home              --Sets DPDK home directoy. Use only when --dpdk is set"
    echo ""
-   echo "--use-immediate-mode  --Use libpcap immediate mode which enables getting packets as fast as possible (supported on libpcap>=1.5)"
+   echo "--use-immediate-mode     --Use libpcap immediate mode which enables getting packets as fast as possible (supported on libpcap>=1.5)"
    echo ""
-   echo "--install-dir         --Installation directory. Default is /usr/local"
+   echo "--set-direction-enabled  --Set direction for capturing incoming or outgoing packets (supported on libpcap>=0.9.1)"
    echo ""
-   echo "--libpcap-include-dir --libpcap header files directory. This parameter is optional and if omitted PcapPlusPlus will look for"
-   echo "                        the header files in the default include paths"
-   echo "--libpcap-lib-dir     --libpcap pre compiled lib directory. This parameter is optional and if omitted PcapPlusPlus will look for"
-   echo "                        the lib file in the default lib paths"
+   echo "--install-dir            --Installation directory. Default is /usr/local"
    echo ""
-   echo -e "-h|--help             --Displays this help message and exits. No further actions are performed"\\n
+   echo "--libpcap-include-dir    --libpcap header files directory. This parameter is optional and if omitted PcapPlusPlus will look for"
+   echo "                           the header files in the default include paths"
+   echo "--libpcap-lib-dir        --libpcap pre compiled lib directory. This parameter is optional and if omitted PcapPlusPlus will look for"
+   echo "                           the lib file in the default lib paths"
+   echo ""
+   echo -e "-h|--help                --Displays this help message and exits. No further actions are performed"\\n
    echo -e "Examples:"
    echo -e "      $SCRIPT --default"
    echo -e "      $SCRIPT --use-immediate-mode"
+   echo -e "      $SCRIPT --set-direction-enabled"
    echo -e "      $SCRIPT --libpcap-include-dir /home/myuser/my-libpcap/include --libpcap-lib-dir /home/myuser/my-libpcap/lib"
    echo -e "      $SCRIPT --install-dir /home/myuser/my-install-dir"
    echo -e "      $SCRIPT --pf-ring --pf-ring-home /home/myuser/PF_RING"
@@ -55,6 +58,7 @@ PF_RING_HOME=""
 COMPILE_WITH_DPDK=0
 DPDK_HOME=""
 HAS_PCAP_IMMEDIATE_MODE=0
+HAS_SET_DIRECTION_ENABLED=0
 
 # initializing libpcap include/lib dirs to an empty string 
 LIBPCAP_INLCUDE_DIR=""
@@ -118,7 +122,7 @@ if [ $NUMARGS -eq 0 ]; then
 else
 
    # these are all the possible switches
-   OPTS=`getopt -o h --long default,pf-ring,pf-ring-home:,dpdk,dpdk-home:,help,use-immediate-mode,install-dir:,libpcap-include-dir:,libpcap-lib-dir: -- "$@"`
+   OPTS=`getopt -o h --long default,pf-ring,pf-ring-home:,dpdk,dpdk-home:,help,use-immediate-mode,set-direction-enabled,install-dir:,libpcap-include-dir:,libpcap-lib-dir: -- "$@"`
 
    # if user put an illegal switch - print HELP and exit
    if [ $? -ne 0 ]; then
@@ -165,6 +169,11 @@ else
        # enable libpcap immediate mode
        --use-immediate-mode)
          HAS_PCAP_IMMEDIATE_MODE=1
+         shift ;;
+
+       # set direction enabled
+       --set-direction-enabled)
+         HAS_SET_DIRECTION_ENABLED=1
          shift ;;
 
        # non-default libpcap include dir
@@ -306,6 +315,9 @@ if (( $HAS_PCAP_IMMEDIATE_MODE > 0 )) ; then
    echo -e "HAS_PCAP_IMMEDIATE_MODE := 1\n\n" >> $PCAPPLUSPLUS_MK
 fi
 
+if (( $HAS_SET_DIRECTION_ENABLED > 0 )) ; then 
+   echo -e "HAS_SET_DIRECTION_ENABLED := 1\n\n" >> $PCAPPLUSPLUS_MK
+fi
 # non-default libpcap include dir
 if [ -n "$LIBPCAP_INLCUDE_DIR" ]; then
    echo -e "# non-default libpcap include dir" >> $PCAPPLUSPLUS_MK

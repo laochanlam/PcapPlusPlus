@@ -5,7 +5,8 @@
 #include <stdint.h>
 #include <string>
 
-#define MAX_ADDR_STRING_LEN 40 //xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx
+#define MAX_ADDR_STRING_LEN 40 //xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx\0
+#define MAX_IPV4_STRING_LEN 16 //xxx.xxx.xxx.xxx\0
 
 /// @file
 
@@ -114,7 +115,7 @@ namespace pcpp
 	{
 	private:
 		in_addr* m_pInAddr;
-		void init(char* addressAsString);
+		void init(const char* addressAsString);
 	public:
 		/**
 		 * A constructor that creates an instance of the class out of 4-byte integer value
@@ -128,7 +129,7 @@ namespace pcpp
 		 * If the string doesn't represent a valid IPv4 address, instance will be invalid, meaning isValid() will return false
 		 * @param[in] addressAsString The string (char*) representation of the address
 		 */
-		IPv4Address(char* addressAsString);
+		IPv4Address(const char* addressAsString);
 
 		/**
 		 * A constructor that creates an instance of the class out of std::string value
@@ -195,7 +196,18 @@ namespace pcpp
 		 * @param[in] subnetMask A string representing the subnet mask to compare the address with the subnet
 		 *
 		 */
-		bool matchSubnet(const IPv4Address& subnet, const std::string& subnetMask);
+		bool matchSubnet(const IPv4Address& subnet, const std::string& subnetMask) const;
+
+		/**
+		 * Checks whether the address matches a subnet.
+		 * For example: if subnet is 10.1.1.X, subnet mask is 255.255.255.0 and address is 10.1.1.9 then the method will return true
+		 * Another example: if subnet is 10.1.X.X, subnet mask is 255.0.0.0 and address is 11.1.1.9 then the method will return false
+		 * @param[in] subnet The subnet to be verified. Notice it's an IPv4Address type, so subnets with don't-cares (like 10.0.0.X) must have some number
+		 * (it'll be ignored if subnet mask is correct)
+		 * @param[in] subnetMask The subnet mask to compare the address with the subnet
+		 *
+		 */
+		bool matchSubnet(const IPv4Address& subnet, const IPv4Address& subnetMask) const;
 
 		/**
 		 * A static value representing a zero value of IPv4 address, meaning address of value "0.0.0.0"
