@@ -11,7 +11,7 @@
 
 namespace pcpp
 {
-    AggLayer::AggLayer(uint32_t workerID, uint8_t agtr, uint8_t round,uint32_t* data)
+    AggLayer::AggLayer(uint64_t key, uint32_t len_tensor, uint32_t workerID, uint8_t agtr, uint32_t round, uint32_t* data)
     {
         m_DataLen = sizeof(agghdr);
         //fake data
@@ -21,10 +21,12 @@ namespace pcpp
 
         agghdr* aggHeader = getAggHeader();
 
+        aggHeader->key = key;
+        aggHeader->len_tensor = len_tensor;
         aggHeader->bitmap = htonl(1 << workerID);
         aggHeader->reserved = 0;
         aggHeader->agtr = agtr;
-        aggHeader->round = round;
+        aggHeader->round = htonl(round);
 //        printf("value of a = 0x%08x\n",  aggHeader->bitmap);
 //         printf("A: 0x%X \n", workerID);
 //         printf("B: 0x%X \n", htons(workerID));
