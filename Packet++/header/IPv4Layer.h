@@ -101,7 +101,8 @@ namespace pcpp
 		/** Raw IP packets			*/
 		PACKETPP_IPPROTO_RAW = 255,
 		/** Maximum value */
-		PACKETPP_IPPROTO_MAX
+		PACKETPP_IPPROTO_MAX,
+		PACKETPP_P4ML = 0x87,
 	};
 
 
@@ -438,6 +439,7 @@ namespace pcpp
 		 * @param[in] dstIP Destination IPv4 address
 		 */
 		IPv4Layer(const IPv4Address& srcIP, const IPv4Address& dstIP);
+		IPv4Layer(const IPv4Address& srcIP, const IPv4Address& dstIP, uint8_t protocol);
 
 		/**
 		 * A copy constructor that copy the entire header from the other IPv4Layer (including IPv4 options)

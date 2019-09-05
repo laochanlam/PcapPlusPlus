@@ -63,9 +63,9 @@ void EthLayer::parseNextLayer()
 	case PCPP_ETHERTYPE_MPLS:
 		m_NextLayer = new MplsLayer(m_Data + sizeof(ether_header), m_DataLen - sizeof(ether_header), this, m_Packet);
 		break;
-    case PCPP_ETHERTYPE_P4ML:
-        m_NextLayer = new AggLayer(m_Data + sizeof(ether_header), m_DataLen - sizeof(ether_header), this, m_Packet);
-        break;
+    // case PCPP_ETHERTYPE_P4ML:
+    //     m_NextLayer = new AggLayer(m_Data + sizeof(ether_header), m_DataLen - sizeof(ether_header), this, m_Packet);
+        // break;
 	default:
 		m_NextLayer = new PayloadLayer(m_Data + sizeof(ether_header), m_DataLen - sizeof(ether_header), this, m_Packet);
 	}

@@ -12,6 +12,7 @@
 #include <sstream>
 #include "IpUtils.h"
 #include "Logger.h"
+#include "AggLayer.h"
 
 namespace pcpp
 {
@@ -217,6 +218,15 @@ IPv4Layer::IPv4Layer(const IPv4Address& srcIP, const IPv4Address& dstIP)
 	ipHdr->ipDst = dstIP.toInt();
 }
 
+IPv4Layer::IPv4Layer(const IPv4Address& srcIP, const IPv4Address& dstIP, uint8_t protocol)
+{
+	initLayer();
+	iphdr* ipHdr = getIPv4Header();
+	ipHdr->ipSrc = srcIP.toInt();
+	ipHdr->ipDst = dstIP.toInt();
+	ipHdr->protocol = protocol;
+}
+
 IPv4Layer::IPv4Layer(const IPv4Layer& other) : Layer(other)
 {
 	copyLayerData(other);
@@ -299,6 +309,9 @@ void IPv4Layer::parseNextLayer()
 		}
 		else
 			m_NextLayer = new PayloadLayer(m_Data + hdrLen, m_DataLen - hdrLen, this, m_Packet);
+		break;
+	case PACKETPP_P4ML:
+        m_NextLayer = new AggLayer(m_Data + hdrLen, m_DataLen - hdrLen, this, m_Packet);
 		break;
 	default:
 		m_NextLayer = new PayloadLayer(m_Data + hdrLen, m_DataLen - hdrLen, this, m_Packet);
