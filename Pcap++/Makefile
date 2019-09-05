@@ -71,7 +71,7 @@ endif
 	
 Obj/%.o: src/%.cpp
 	@echo 'Building file: $<'
-	@$(CXX) $(DEPS) $(INCLUDES) $(PCAPPP_BUILD_FLAGS) $(FLAGS) -O2 -g -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:Obj/%.o=Obj/%.d)" -MT"$(@:Obj/%.o=Obj/%.d)" -o "$@" "$<"
+	@$(CXX) $(DEPS) $(INCLUDES) $(PCAPPP_BUILD_FLAGS) $(FLAGS) -fPIC -O2 -g -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:Obj/%.o=Obj/%.d)" -MT"$(@:Obj/%.o=Obj/%.d)" -o "$@" "$<"
 
 CUR_TARGET := $(notdir $(shell pwd))
 
