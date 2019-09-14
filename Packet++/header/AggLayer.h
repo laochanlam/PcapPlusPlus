@@ -12,7 +12,7 @@ namespace pcpp
         uint64_t key;
         uint32_t len_tensor;
         uint32_t bitmap;
-        uint8_t reserved;
+        uint8_t flag;
         uint8_t agtr;
         uint32_t round;
         uint32_t vector[MAX_ENTRIES_PER_PACKET];
@@ -48,8 +48,9 @@ namespace pcpp
 		 */
         void parseNextLayer() {}
 
-        void setACK(void) { getAggHeader()->reserved = 1; }
-		/**
+        void setACK(void) { getAggHeader()->flag |= 1; }
+		void setTerminated(void) { getAggHeader()->flag |= 2; }
+        /**
 		 * @return The size of @ref arphdr
 		 */
 		inline size_t getHeaderLen() { return sizeof(agghdr); }
