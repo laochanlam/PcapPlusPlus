@@ -11,7 +11,7 @@
 
 namespace pcpp
 {
-    AggLayer::AggLayer(uint64_t key, uint32_t len_tensor, uint32_t workerID, uint8_t agtr, uint32_t round, uint32_t* data)
+    AggLayer::AggLayer(uint64_t key, uint32_t len_tensor, uint32_t workerID, uint8_t agtr, uint32_t round, int32_t* data)
     {
         m_DataLen = sizeof(agghdr);
         //fake data
