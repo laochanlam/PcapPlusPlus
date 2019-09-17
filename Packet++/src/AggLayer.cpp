@@ -25,7 +25,7 @@ namespace pcpp
         aggHeader->len_tensor = len_tensor;
         aggHeader->bitmap = htonl(1 << workerID);
         aggHeader->flag = 0;
-        aggHeader->agtr = agtr;
+        aggHeader->agtr = htons(agtr);
         aggHeader->round = htonl(round);
 //        printf("value of a = 0x%08x\n",  aggHeader->bitmap);
 //         printf("A: 0x%X \n", workerID);
