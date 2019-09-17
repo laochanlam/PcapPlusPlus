@@ -13,7 +13,7 @@ namespace pcpp
         uint32_t len_tensor;
         uint32_t bitmap;
         uint8_t flag;
-        uint8_t agtr;
+        uint16_t agtr;
         uint32_t round;
         int32_t vector[MAX_ENTRIES_PER_PACKET];
     };
@@ -35,7 +35,7 @@ namespace pcpp
         /**
 		 * A constructor that allocates a new AGG header
          */
-        AggLayer(uint64_t key, uint32_t len_tensor, uint32_t workerID, uint8_t agtr, uint32_t round, int32_t* data);
+        AggLayer(uint64_t key, uint32_t len_tensor, uint32_t workerID, uint16_t agtr, uint32_t round, int32_t* data);
         ~AggLayer() {}
 
         /**
